@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.todolist_back.repository.UserMapper"> <!-- mapper interface연결 -->
+
+    <!-- xml기본 세팅은 myBatis 홈페이지에서 -->
+
+    <resultMap id="userResultMap" type="com.it.todolist_back.entity.User">
+        <id property="userId" column="user_id" /> <!-- property: 연결한 entity 변수명 ~~~ column: DB  -->
+        <result property="email" column="email"/>
+        <result property="password" column="password" />
+        <result property="username" column="username" />
+    </resultMap>
+    <!--  방법1  -->
+    <select id="findUserByEmail"
+            parameterType="string"
+            resultMap="userResultMap">
+        select
+            user_id,
+            email,
+            password,
+            username
+        from
+            user_tb
+        where
+            email = #{email}
+    </select>
+    <!--  방법2  -->
+    <select id="getUserCountByEmail"
+            parameterType="string"
+            resultType="integer">
+        select
+            count(*)
+        from
+            user_tb
+        where
+            email = #{email}
+    </select>
+
+    <insert id="saveUser" parameterType="com.it.todolist_back.entity.User">
+        insert into
+            user_tb
+        values(0, #{email}, #{password}, #{username})
+    </insert>
+
+</mapper>
+
+
