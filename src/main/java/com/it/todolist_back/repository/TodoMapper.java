@@ -7,7 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface TodoMapper {
-    public Boolean saveTodo(Todo todo);
+    public int saveTodo(Todo todo);
     public List<Todo> getTodoListByEmail(String email);
+    public int removeTodo(int todoId);
+    public int updateTodo(Todo todo);
 
 }

@@ -19,6 +19,21 @@
         where
             email = #{email}
     </select>
+
+    <delete id="removeTodo" parameterType="int" >
+        delete from todo_tb
+        where
+            todo_id = #{todoId}
+    </delete>
+
+    <update id="updateTodo" parameterType="com.it.todolist_back.entity.Todo" >
+        update
+            todo_tb
+        set
+            content = #{content}
+        where
+            todo_id = #{todoId}
+    </update>
 </mapper>
 
 

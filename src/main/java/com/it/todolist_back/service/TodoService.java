@@ -2,6 +2,7 @@ package com.it.todolist_back.service;
 
 import com.it.todolist_back.dto.AddTodoReqDto;
 import com.it.todolist_back.dto.GetTodoListRespDto;
+import com.it.todolist_back.dto.UpdateTodoReqDto;
 import com.it.todolist_back.entity.Todo;
 import com.it.todolist_back.entity.User;
 import com.it.todolist_back.repository.TodoMapper;
@@ -9,6 +10,7 @@ import com.it.todolist_back.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class TodoService {
                 .email(email)
                 .build();
 
-        return todoMapper.saveTodo(todo);
+        return todoMapper.saveTodo(todo) > 0;
     }
 
     public List<GetTodoListRespDto> getTodoList() {
@@ -41,6 +43,24 @@ public class TodoService {
         });
 
         return getTodoListRespDtos;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean deleteTodo(int todoId) {
+        return todoMapper.removeTodo(todoId) > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateTodo(int todoId, UpdateTodoReqDto updateTodoReqDto) {
+        Todo todo = Todo.builder()
+                .todoId(todoId)
+                .content(updateTodoReqDto.getUpdateContent())
+                .build();
+
+        return todoMapper.updateTodo(todo) > 0;
+
+//        Todo todo = updateTodoReqDto.toTodoEntity(updateTodoReqDto);
+//        todoMapper.updateTodo(todo);
     }
 
 }
