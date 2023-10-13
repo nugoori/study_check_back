@@ -59,16 +59,11 @@
     </select>
 
     <insert id="saveUser" parameterType="com.it.todolist_back.entity.User">
-        insert into
-            user_tb
+        insert into user_tb
         values(0, #{email}, #{password}, #{username})
     </insert>
 
-    <insert id="saveTodo" parameterType="com.it.todolist_back.entity.Todo" >
-        insert into
-            todo_tb
-        values(0, #{userId}, #{todoContent})
-    </insert>
+
 
 </mapper>
 

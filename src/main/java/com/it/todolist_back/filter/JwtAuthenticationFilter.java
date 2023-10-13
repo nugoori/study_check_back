@@ -36,7 +36,6 @@ public class JwtAuthenticationFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorization = httpServletRequest.getHeader("Authorization");
-        System.out.println(authorization + "11"); // jwt token provider 빼면서 convert랑 안되는중?
 
         // provider 없이
         if(httpServletRequest.getRequestURI().startsWith("/auth") && !httpServletRequest.getRequestURI().startsWith("/authenticate")) {
@@ -87,16 +86,18 @@ public class JwtAuthenticationFilter extends GenericFilter {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
 
-        // 트래픽이 적은 경우에 적합한 방법
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        chain.doFilter(request, response);
+
+        // 트래픽이 적은 경우에 사용할 수 있는 방법
 //        User user = userMapper.findUserByEmail(username);
 //        PrincipalUser principalUser = new PrincipalUser(user);
 //        Authentication authentication =
 //                new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-        chain.doFilter(request, response);
-
+//        chain.doFilter(request, response);
+            
+        // 내가 따라했던 부분
 //        String jwtToken = jwtTokenProvider.convertToken(authorization);
 //        String uri = httpServletRequest.getRequestURI();
 //

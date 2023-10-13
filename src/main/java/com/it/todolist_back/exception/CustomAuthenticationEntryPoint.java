@@ -25,33 +25,33 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         System.out.println(authException.getClass());
         System.out.println("시큐리티의 모든 예외는 여기서 처리함");
 //
-//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-//
-//        Map<String, String> errorMap = new HashMap<>();
-//        errorMap.put("errorMessage", getErrorMessage(authException));
-//
-//        JsonMapper jsonMapper = new JsonMapper();
-//        String jsonResponse = jsonMapper.writeValueAsString(errorMap);
-//
-//        response.getWriter().println(jsonResponse);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", getErrorMessage(authException));
+
+        JsonMapper jsonMapper = new JsonMapper();
+        String jsonResponse = jsonMapper.writeValueAsString(errorMap);
+
+        response.getWriter().println(jsonResponse);
     }
 
-//    private String getErrorMessage(AuthenticationException authException) {
-//        if(authException.getClass() == BadCredentialsException.class) {
-//            return "BadCredentialsException입니다. 다시 확인하세요.";
-//        }else if(authException.getClass() == UsernameNotFoundException.class) {
-//            return "잘못된 사용자 정보입니다. 다시 확인하세요.";
-//        }else if(authException.getClass() == AccountExpiredException.class) {
-//            return "만료된 사용자 정보입니다. 다시 확인하세요.";
-//        }else if(authException.getClass() == CredentialsExpiredException.class) {
-//            return "인증서가 만료되었습니다. 관리자에게 문의하세요.";
-//        }else if(authException.getClass() == DisabledException.class) {
-//            return "비활성화된 사용자 정보입니다. 관리자에게 문의하세요.";
-//        }else if(authException.getClass() == LockedException.class) {
-//            return "암호 오류 5회 이상. 관리자에게 문의하세요.";
-//        }else {
-//            return "사용자 정보 오류.";
-//        }
-//    }
+    private String getErrorMessage(AuthenticationException authException) {
+        if(authException.getClass() == BadCredentialsException.class) {
+            return "BadCredentialsException입니다. 다시 확인하세요.";
+        }else if(authException.getClass() == UsernameNotFoundException.class) {
+            return "잘못된 사용자 정보입니다. 다시 확인하세요.";
+        }else if(authException.getClass() == AccountExpiredException.class) {
+            return "만료된 사용자 정보입니다. 다시 확인하세요.";
+        }else if(authException.getClass() == CredentialsExpiredException.class) {
+            return "인증서가 만료되었습니다. 관리자에게 문의하세요.";
+        }else if(authException.getClass() == DisabledException.class) {
+            return "비활성화된 사용자 정보입니다. 관리자에게 문의하세요.";
+        }else if(authException.getClass() == LockedException.class) {
+            return "암호 오류 5회 이상. 관리자에게 문의하세요.";
+        }else {
+            return "사용자 정보 오류.";
+        }
+    }
 }

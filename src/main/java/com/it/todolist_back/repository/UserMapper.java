@@ -12,5 +12,4 @@ public interface UserMapper {
     public Integer getUserCountByEmail(String email);
     public Integer saveUser(User user);
 
-    public Integer saveTodo(Integer userId, String todo);
 }

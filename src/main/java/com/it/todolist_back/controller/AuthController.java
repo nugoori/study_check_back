@@ -49,14 +49,12 @@ public class AuthController {
 
     @PostMapping("/auth/signin")
     public ResponseEntity<?> signIn(@RequestBody SignInReqDto signInReqDto) {
-        System.out.println(signInReqDto);
         String accessToken = authService.signin(signInReqDto);
         return ResponseEntity.ok().body(accessToken);
     }
 
-    @GetMapping("/authenticate")
+    @GetMapping("/authenticated")
     public ResponseEntity<?> authenticate() {
-
-        return ResponseEntity.ok().body(null); //authService.authenticate(token)
+        return ResponseEntity.ok().body(true); //authService.authenticate(token)
     }
 }

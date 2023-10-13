@@ -96,8 +96,8 @@ public class AuthService {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(signinReqDto.getEmail(), signinReqDto.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(token);
-        System.out.println("여기까지왔음!!!!");
-        System.out.println(authentication.getName());
+//        System.out.println("여기까지왔음!!!!");
+//        System.out.println(authentication.getName());
 
         Key kye = Keys.hmacShaKeyFor(Decoders.BASE64.decode("1UQJ1AHIvUfFlCwj4WAauoat9iaJN4nP3bolvD0Zhnw1ZLWwuG8rH7I06jQgGgWorvdHuRNSo5DXij3MIoFKRw=="));
 
@@ -108,7 +108,6 @@ public class AuthService {
                 .setExpiration(date)
                 .signWith(kye, SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println(jwtToken);
         return jwtToken;
     }
 

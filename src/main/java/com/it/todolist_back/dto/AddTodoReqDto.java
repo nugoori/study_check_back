@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class AddTodoReqDto {
-    private String todo;
+    private String content;
 }
