@@ -1,8 +1,8 @@
 package com.it.todolist_back.controller;
 
+import com.it.todolist_back.dto.SignInReqDto;
 import com.it.todolist_back.dto.SignUpReqDto;
 import com.it.todolist_back.service.AuthService;
-import com.it.todolist_back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,12 +38,25 @@ public class AuthController {
             }
             return ResponseEntity.badRequest().body(errorMap);
         }
-        if(authService.isDuplicated(signUpReqDto.getEmail())) {
+        if(authService.isDuplicatedEmail(signUpReqDto.getEmail())) {
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("email", "이미 사용 중인 이메일입니다.");
             return ResponseEntity.badRequest().body(errorMap);
         }
 
         return ResponseEntity.ok().body(authService.insertUser(signUpReqDto));
+    }
+
+    @PostMapping("/auth/signin")
+    public ResponseEntity<?> signIn(@RequestBody SignInReqDto signInReqDto) {
+        System.out.println(signInReqDto);
+        String accessToken = authService.signin(signInReqDto);
+        return ResponseEntity.ok().body(accessToken);
+    }
+
+    @GetMapping("/authenticate")
+    public ResponseEntity<?> authenticate() {
+
+        return ResponseEntity.ok().body(null); //authService.authenticate(token)
     }
 }

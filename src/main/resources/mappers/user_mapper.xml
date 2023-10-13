@@ -11,18 +11,38 @@
         <result property="email" column="email"/>
         <result property="password" column="password" />
         <result property="username" column="username" />
+        <collection property="authorities" javaType="list" resultMap="authorityResultMap" />
+    </resultMap>
+
+    <resultMap id="authorityResultMap" type="com.it.todolist_back.entity.Authority" >
+        <id property="authorityId" column="authority_id"/>
+        <result property="userId" column="at_user_id" />
+        <result property="roleId" column="role_id" />
+        <association property="role" resultMap="roleResultMap" />
+    </resultMap>
+
+    <resultMap id="roleResultMap" type="com.it.todolist_back.entity.Role">
+        <id property="roleId" column="role_id" /> <!-- property: 연결한 entity 변수명 ~~~ column: DB  -->
+        <result property="roleName" column="role_name"/>
     </resultMap>
     <!--  방법1  -->
     <select id="findUserByEmail"
             parameterType="string"
             resultMap="userResultMap">
         select
-            user_id,
+            ut.user_id,
             email,
             password,
-            username
+            username,
+            at.authority_id,
+            at.user_id as at_user_id,
+            at.role_id as at_role_id,
+            rt.role_id,
+            rt.role_name
         from
-            user_tb
+            user_tb ut
+            left outer join authority_tb at on(at.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = at.role_id)
         where
             email = #{email}
     </select>
@@ -42,6 +62,12 @@
         insert into
             user_tb
         values(0, #{email}, #{password}, #{username})
+    </insert>
+
+    <insert id="saveTodo" parameterType="com.it.todolist_back.entity.Todo" >
+        insert into
+            todo_tb
+        values(0, #{userId}, #{todoContent})
     </insert>
 
 </mapper>
